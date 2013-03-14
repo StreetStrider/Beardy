@@ -342,7 +342,16 @@ module.exports = [
 		}) === 'false,true,false,true,false,true,true,true,';
 	}},
 
-	//{ name: 'Filter:', code: function () {
+	{ name: 'Filter:empty', code: function () {
+		return Beardy('{{ A:empty }},{{ B:empty }},{{ C:empty }},{{ D:empty }}',
+		{
+			A: true,
+			B: 1,
+			C: [1],
+			D: []
+		}) === 'false,false,false,true';
+	}},
 
+	//{ name: 'Filter:', code: function () {
 
 ];

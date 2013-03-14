@@ -27,7 +27,6 @@ Beardy.prototype.filters =
 
 	not        : function (value) { return  ! value; },
 	bool       : function (value) { return !! value; },
-	invert     : function (value) { return  ! value || ! value.length; },
 
 	escape     : function (value) { return String(value).replace(/&/g, "&amp;").replace(/</g, "&laquo;").replace(/>/g, "&raquo;"); },
 	uppercase  : function (value) { return String(value).toUpperCase(); },
@@ -38,7 +37,7 @@ Beardy.prototype.filters =
 
 	list       : function (value) { return [].concat(value); },
 	join       : function (value, args) { return [].concat(value).join(args[0] || ','); },
-	empty      : function (value) { return ! value.length; },
+	empty      : function (value) { return  ! [].concat(value).length; },
 
 	add        : function (value, args) { return +value + +args[0]; },
 	sub        : function (value, args) { return +value - +args[0]; },
