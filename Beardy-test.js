@@ -325,6 +325,23 @@ module.exports = [
 		}) === 'true,false,true,false,true,false,false,false,';
 	}},
 
+	{ name: 'Filter:bool', code: function () {
+		return Beardy('{% C %}{{ A:bool }},{% . %}',
+		{
+			C:
+			[
+				{},
+				{ A: true },
+				{ A: false },
+				{ A: 1 },
+				{ A: 0 },
+				{ A: {} },
+				{ A: [] },
+				{ A: [1] },
+			]
+		}) === 'false,true,false,true,false,true,true,true,';
+	}},
+
 	//{ name: 'Filter:', code: function () {
 
 
