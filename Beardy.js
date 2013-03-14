@@ -23,7 +23,7 @@ Beardy.prototype.render = function (data)
 
 Beardy.prototype.filters =
 {
-	'default'  : function (value, args) { return isValue(value) ? value : args[0]; },
+	'default'  : function (value, args) { return value ? value : args[0]; },
 
 	not        : function (value) { console.log(value); return  ! value; },
 	bool       : function (value) { console.log(value); return !! value; },
@@ -250,14 +250,14 @@ function render (struct, data)
 			{
 			case 'subst':
 
-				_   += applyFilters.call(this, resolveName(data, e.name), e.filters, e.name, data);
+				_   += toString(applyFilters.call(this, resolveName(data, e.name), e.filters, e.name, data));
 
 				break;
 			case 'block':
 
 				item = applyFilters.call(this, resolveName(data, e.name), e.filters, e.name, data);
 
-				if (isValue(item))
+				if (item)
 				{
 					items = [].concat(item);
 
@@ -300,17 +300,9 @@ function render (struct, data)
 	return _;
 }
 
-var FALSY = new (function Falsy ()
+function toString (value)
 {
-	this.toString = function () { return ""; };
-	this.valueOf  = function () { return ""; };
-	this.inspect  = function () { return "[Falsy]" };
-	this.length   = 0;
-});
-
-function isValue (value)
-{
-	return value && value !== FALSY;
+	return value == null ? '' : value + '';
 }
 
 function resolveName (data, name)
@@ -324,7 +316,7 @@ function resolveName (data, name)
 	{
 		if (typeof scope !== 'object')
 		{
-			value = FALSY;
+			value = null;
 			break;
 		}
 
@@ -351,21 +343,12 @@ function toValue (data, name)
 		{
 			value = data[name];
 		}
-		return falsy(value);
+		return value;
 	}
 	else
 	{
-		return FALSY;
+		return null;
 	}
-}
-
-function falsy (value)
-{
-	if (value === undefined || value === null)
-	{
-		return FALSY;
-	}
-	return value;
 }
 
 function applyFilters (value, filters, key, data)
