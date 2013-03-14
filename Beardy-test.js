@@ -309,7 +309,7 @@ module.exports = [
 	}},
 
 	{ name: 'Filter:not', code: function () {
-		return console.log(Beardy('{% C %}{{ A:not }},{% . %}',
+		return Beardy('{% C %}{{ A:not }},{% . %}',
 		{
 			C:
 			[
@@ -319,9 +319,10 @@ module.exports = [
 				{ A: 1 },
 				{ A: 0 },
 				{ A: {} },
-				{ A: [] }
+				{ A: [] },
+				{ A: [1] },
 			]
-		})) === 'false,true,false,true,false,false,';
+		}) === 'true,false,true,false,true,false,false,false,';
 	}},
 
 	//{ name: 'Filter:', code: function () {

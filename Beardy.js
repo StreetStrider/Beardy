@@ -25,8 +25,8 @@ Beardy.prototype.filters =
 {
 	'default'  : function (value, args) { return value ? value : args[0]; },
 
-	not        : function (value) { console.log(value); return  ! value; },
-	bool       : function (value) { console.log(value); return !! value; },
+	not        : function (value) { return  ! value; },
+	bool       : function (value) { return !! value; },
 	invert     : function (value) { return  ! value || ! value.length; },
 
 	escape     : function (value) { return String(value).replace(/&/g, "&amp;").replace(/</g, "&laquo;").replace(/>/g, "&raquo;"); },
