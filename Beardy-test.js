@@ -280,12 +280,12 @@ module.exports = [
 	}},
 
 	{ name: 'Dot access', code: function () {
-		return Beardy('{{ A.B.C }},{{ B.1.0 }},{{ C.D.E }}',
+		return Beardy('{{ A.B.C }},{{ B.1.0 }},{{ C.D.E }},{{ A.B }},{{ C.D }},{{ *.A.B.C }},{{ A.E }},{{ *.D }}',
 			{
 				A: { B: { C: 'a' }},
 				B: [ 0, [ 'b' ] ],
 				C: function () { return { D: function () { return { E: function () { return 'c' }, E1: 1 }; } }; }
-			}) === 'a,b,c';
+			}) === 'a,b,c,[object Object],[object Object],a,,';
 	}},
 
 	{ name: 'Dot access shorting', code: function () {
