@@ -358,6 +358,11 @@ module.exports = [
 		}) === 'false,false,false,true';
 	}},
 
+	{ name: 'Filter:escape', code: function () {
+		return Beardy('<{{ A:escape }}>', { A: '<tag /> & <<>>' }) ===
+		'<&laquo;tag /&raquo; &amp; &laquo;&laquo;&raquo;&raquo;>';
+	}},
+
 	//{ name: 'Filter:', code: function () {
 
 ];
