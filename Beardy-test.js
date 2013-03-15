@@ -163,6 +163,12 @@ module.exports = [
 			=== '[<true=a=0=0=1=-4=false><false=b=1=1=2=-3=false><false=c=2=2=3=-2=false><false=d=3=3=4=-1=true>]';
 	}},
 
+	{ name: 'Global Block context item key', code: function () {
+		return Beardy('{{ * }};{% * %}{{ * }}-{% . %}',
+			[ 1, 2, 3 ]
+		) === '1,2,3;1-2-3-';
+	}},
+
 	{ name: 'Block context key extending', code: function () {
 		function mul () { return this.b * this['#-']; }
 		return Beardy(
@@ -298,7 +304,7 @@ module.exports = [
 				value + ';' +
 				args + ';' +
 				key + ';' +
-				(data === d); }
+				(data['*'] === d); }
 		};
 		var x = b.render(d);
 		return x === 'true;1;1,2,3;X;true';

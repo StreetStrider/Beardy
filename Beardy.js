@@ -236,6 +236,8 @@ function render (struct, data)
 		subscope,
 		key;
 
+	data  = copyData(Object.create(Object.getPrototypeOf(data)), data);
+
 	for (var i = 0; i < struct.length; i++)
 	{
 		e = struct[i];
@@ -274,19 +276,7 @@ function render (struct, data)
 						subscope['#first'] = (j === 0);
 						subscope['#last']  = (j === items.length - 1);
 
-						subscope['*'] = item;
-
-						if (Object(item) === item)
-						{
-							/* shallow copy */
-							for (key in item)
-							{
-								if (Object.prototype.hasOwnProperty.call(item, key))
-								{
-									subscope[key] = item[key];
-								}
-							}
-						}
+						subscope = copyData(subscope, item);
 
 						_ += render.call(this, e.struct, subscope);
 					}
@@ -297,6 +287,24 @@ function render (struct, data)
 	}
 
 	return _;
+}
+
+function copyData (scope, data)
+{
+	scope['*'] = data;
+
+	if (Object(data) === data)
+	{
+		/* shallow copy */
+		for (key in data)
+		{
+			if (Object.prototype.hasOwnProperty.call(data, key))
+			{
+				scope[key] = data[key];
+			}
+		}
+	}
+	return scope;
 }
 
 function toString (value)
