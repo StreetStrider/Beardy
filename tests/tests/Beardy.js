@@ -1,7 +1,7 @@
 
 
 
-var Beardy = require('./Beardy');
+var Beardy = require('./../../Beardy');
 
 var SIMPLE_TEMPLATE = 'abc def - zxc asqwezc { } [ ] ! # . $ *';
 

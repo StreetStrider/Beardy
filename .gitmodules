@@ -1,0 +1,3 @@
+[submodule "tests/JSTest"]
+	path = tests/JSTest
+	url = git://github.com/StreetStrider/JS-Test.git
