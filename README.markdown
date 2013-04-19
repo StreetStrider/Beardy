@@ -32,7 +32,7 @@ Subst is a structure for outputting values from data object. It substs (substitu
 '{{ a }}'
 ```
 
-**JavaScript**:
+**Data Object**:
 ```javascript
 {
   a: 1
@@ -54,7 +54,7 @@ It is possible to use power of nested objects:
 '{{ a.b }}'
 ```
 
-**JavaScript**:
+**Data Object**:
 ```javascript
 {
   a:
@@ -83,7 +83,7 @@ Filters are available, and they can be chained good:
 '{{ a:trim:capitalize }}'
 ```
 
-**JavaScript**:
+**Data Object**:
 ```javascript
 {
   a: ' le spy '
@@ -106,7 +106,7 @@ depends on its key value.
 '{% a %}1{% . %}'
 ```
 
-**JavaScript**:
+**Data Object**:
 ```javascript
 {
   a: false
@@ -129,7 +129,7 @@ More examples:
 '{% a %}1{% . %}'
 ```
 
-**JavaScript**:
+**Data Object**:
 ```javascript
 {
   a: 'some true value'
@@ -148,7 +148,7 @@ In case of list block registrates special ``*`` key in it to access current iter
 '{% a %}{{ * }}{% . %}'
 ```
 
-**JavaScript**:
+**Data Object**:
 ```javascript
 {
   a: [1, 2, 3]
@@ -168,7 +168,7 @@ Comments are sequences that are marked to be not outputted at any case.
 '{# This is a comment. #}Hey.'
 ```
 
-**JavaScript**:
+**Data Object**:
 ```javascript
 {
 }
