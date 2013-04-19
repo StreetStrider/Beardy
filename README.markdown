@@ -45,7 +45,8 @@ Subst is a structure for outputting values from data object. It substs (substitu
 ```
 This searches value in data object by key and outputs it. Number will be casted to string.
 The basic rule are simple: `null` and `undefined` results in empty string, all other values are casted
-by basic JS rules, so there is no surprises here.
+by basic JS rules, so there is no surprises here. If engine meets function as a value it executes it
+in data object context and uses its result as a value.
 
 It is possible to use power of nested objects:
 
@@ -180,6 +181,31 @@ Comments are sequences that are marked to be not outputted at any case.
 ```
 
 Comments can enclose blocks and substs and also span multiple lines.
+
+### Functions
+Functions can be used in mix with usual values and supplied in data object. Functions acts like properties,
+when value contains function, is executes and its result is used as value for subst or block.
+
+Function executes in context of data object and also supplied by single argument that contain key with
+which it was invoked.
+
+**Template**:
+```javascript
+'{{ fn }}'
+```
+
+**Data Object**:
+```javascript
+{
+  a: 'basis_',
+  fn: function (key) { return this.a + key; }
+}
+```
+
+**Output**:
+```javascript
+'basis_fn'
+```
 
 Advanced Templating
 -----
