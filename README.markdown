@@ -8,14 +8,15 @@ Main design
 -----
 Beardy follows Mustache logic-less phylosophy,
 but brings in some main ideas which differ it from Mustache:
+
 1. There is only three universal constructs: *subst*, *block* and *comment*.
 Comment has different closing token then block or subst. It allows to hide blocks and substs in comment.
 2. Logic lives in functions, but also *filters* available. Filters modify values and can be chained.
-2. No invert block. Instead of it there is special filter `not` that inverts boolean value by JS rules.
-3. No special escape or non-escape substs. All substs are **not** escaped by default.
+3. No invert block. Instead of it there is special filter `not` that inverts boolean value by JS rules.
+4. No special escape or non-escape substs. All substs are **not** escaped by default.
 There is special filter `escape` to do it.
-4. Closing tag of block does not duplicate block name. It is simpler and allows to avoid nesting errors.
-5. Engine respects JS basic rules and follows functional style.
+5. Closing tag of block does not duplicate block name. It is simpler and allows to avoid nesting errors.
+6. Engine respects JS basic rules and follows functional style.
 
 Syntax basics
 -----
