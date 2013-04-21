@@ -348,6 +348,10 @@ module.exports = [
 		}) === 'false,true,false,true,false,true,true,true,';
 	}},
 
+	{ name: 'Non-parametric filter with parameters', code: function () {
+		return Beardy('{{ A:bool() }} {{ A:bool(1, 2, 3) }}', { A: true }) === 'true true';
+	}},
+
 	{ name: 'Filter:empty', code: function () {
 		return Beardy('{{ A:empty }},{{ B:empty }},{{ C:empty }},{{ D:empty }}',
 		{
@@ -423,5 +427,23 @@ module.exports = [
 		return Beardy('{% A %}{{ *:odd }},{% . %}', { A: [1, 2, 3, 4, 5] }) ===
 		'true,false,true,false,true,';
 	}},
+
+	{ name: 'Filter chaining', code: function () {
+		return Beardy('{{ A:split:join( ):capitalize:default(0) }} {{ B:default(123|456):split(|) }}',
+		{ A: 'abc,asd,qwe' }) ===
+		'Abc Asd Qwe 123,456';
+	}},
+
+	{ name: 'List filter in iteration head ', code: function () {
+		return Beardy('{% A:list %}{{ * }}|{% . %} {% A:split %}{{ * }}|{% . %}', { A: "1,2,3" }) ===
+		'1,2,3| 1|2|3|';
+	}},
+
+	{ name: 'Filter in iteration', code: function () {
+		return Beardy('{% A:split %}{{ *:trim:capitalize }}{% #last:not %}, {% . %}{% . %}',
+		{ A: " asd, qwe , zxc " }) ===
+		'Asd, Qwe, Zxc';
+	}},
+
 
 ];
