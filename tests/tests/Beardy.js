@@ -363,6 +363,65 @@ module.exports = [
 		'<&laquo;tag /&raquo; &amp; &laquo;&laquo;&raquo;&raquo;>';
 	}},
 
-	//{ name: 'Filter:', code: function () {
+	{ name: 'Filter:uppercase', code: function () {
+		return Beardy('{{ A:uppercase }}abc1', { A: 'aBc1' }) ===
+		'ABC1abc1';
+	}},
+
+	{ name: 'Filter:lowercase', code: function () {
+		return Beardy('{{ A:lowercase }}QWE1', { A: 'QWe1' }) ===
+		'qwe1QWE1';
+	}},
+
+	{ name: 'Filter:capitalize', code: function () {
+		return Beardy('{{ A:capitalize }} abc abC', { A: 'abc aBC' }) ===
+		'Abc ABC abc abC';
+	}},
+
+	{ name: 'Filter:trim', code: function () {
+		return Beardy(' <{{ A:trim }}>\n', { A: ' 123\n\t ' }) ===
+		' <123>\n'
+	}},
+
+	{ name: 'Filter:split', code: function () {
+		return Beardy('{{ A:split }} {{ A:split(:) }}', { A: '12:34,15:25,17:30' }) ===
+		'12:34,15:25,17:30 12,34,15,25,17,30';
+	}},
+
+	{ name: 'Filter:list', code: function () {
+		return Beardy('{% A:list %}1{% . %} {% B %}2{% . %} {% C %}3{% . %}',
+		{ B: 'abc', C: [1, 2, 3] }
+		) ===
+		'1 2 333';
+	}},
+	{ name: 'Filter:join', code: function () {
+		return Beardy('{{ A:join }} {{ A:join(|) }} {{ B:join }}', { A: [1, 2, 3], B: 1 }) ===
+		'1,2,3 1|2|3 1';
+	}},
+
+	{ name: 'Filter:add', code: function () {
+		return Beardy('{{ A:add(3) }}', { A: 2 }) ===
+		'5';
+	}},
+
+	{ name: 'Filter:sub', code: function () {
+		return Beardy('{{ A:sub(10) }}', { A: 17 }) ===
+		'7';
+	}},
+
+	{ name: 'Filter:mod', code: function () {
+		return Beardy('{% A %}{{ *:mod(3) }},{% . %}', { A: [1, 2, 3, 4, 5] }) ===
+		'1,2,0,1,2,';
+	}},
+
+	{ name: 'Filter:even', code: function () {
+		return Beardy('{% A %}{{ *:even }},{% . %}', { A: [1, 2, 3, 4, 5] }) ===
+		'false,true,false,true,false,';
+	}},
+
+	{ name: 'Filter:odd', code: function () {
+		return Beardy('{% A %}{{ *:odd }},{% . %}', { A: [1, 2, 3, 4, 5] }) ===
+		'true,false,true,false,true,';
+	}},
 
 ];
