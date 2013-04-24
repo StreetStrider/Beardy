@@ -1,3 +1,6 @@
 [submodule "tests/JSTest"]
 	path = tests/JSTest
 	url = git://github.com/StreetStrider/JS-Test.git
+[submodule "doc"]
+	path = doc
+	url = git://github.com/StreetStrider/Beardy.wiki.git
