@@ -17,8 +17,14 @@ function Beardy (template, data)
 
 Beardy.prototype.render = function (data)
 {
-	if (Object(data) !== data) throw new TypeError('Need data to render');
-	return render.call(this, this._struct, data);
+	if (data === undefined)
+	{
+		throw new TypeError('Need data to render');
+	}
+	else
+	{
+		return render.call(this, this._struct, data);
+	}
 };
 
 Beardy.prototype.filters =
@@ -236,7 +242,7 @@ function render (struct, data)
 		subscope,
 		key;
 
-	data  = copyData(Object.create(Object.getPrototypeOf(data)), data);
+	data  = copy(data);
 
 	for (var i = 0; i < struct.length; i++)
 	{
@@ -289,6 +295,18 @@ function render (struct, data)
 	return _;
 }
 
+function copy (data)
+{
+	if (Object(data) === data)
+	{
+		return copyData(Object.create(Object.getPrototypeOf(data)), data);
+	}
+	else
+	{
+		return copyData({}, data);
+	}
+}
+
 function copyData (scope, data)
 {
 	scope['*'] = data;
@@ -321,7 +339,7 @@ function resolveName (data, name)
 
 	do
 	{
-		if (typeof scope !== 'object')
+		if (Object(scope) !== scope)
 		{
 			value = null;
 			break;

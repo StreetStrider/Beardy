@@ -34,6 +34,12 @@ module.exports = [
 		return r === '';
 	}},
 
+	{ name: 'Render with primitive data', code: function () {
+		var b = new Beardy('');
+		var r = b.render(true);
+		return r === '';
+	}},
+
 	{ name: 'Render empty template', code: function () {
 		var b = new Beardy('');
 		var r = b.render({});
@@ -288,9 +294,22 @@ module.exports = [
 			}) === 'a,b,c,[object Object],[object Object],a,,';
 	}},
 
+	{ name: 'Dot access on falsy objects', code: function () {
+		return Beardy('{{ x.y.z }},{{ y.a }},{{ z.a }}', { x: null, y: false, z: undefined
+		}) === ',,';
+	}},
+
 	{ name: 'Dot access shorting', code: function () {
 		return Beardy('{{ A.B.C }}-{% A %}{{ B.C }}-{% B %}{{ C }}-{% C %}{{ * }}{% . %}{% . %}{% . %}',
 			{ A: { B: { C: 5 } } }) === '5-5-5-5';
+	}},
+
+	{ name: 'Constructs with primitive data', code: function () {
+		var T = '{{ * }},{{ *.x }},{% * %}{{ * }}{% . %}';
+		var r1 = Beardy(T, 5);
+		var r2 = Beardy(T, null);
+		var r3 = Beardy(T, true);
+		return (r1 === '5,,5') && (r2 === ',,') && (r3 === 'true,,true');
 	}},
 
 	{ name: 'Filter signature', code: function () {
