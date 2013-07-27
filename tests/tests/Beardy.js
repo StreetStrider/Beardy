@@ -312,6 +312,63 @@ module.exports = [
 		return (r1 === '5,,5') && (r2 === ',,') && (r3 === 'true,,true');
 	}},
 
+	{ name: 'Inlay', code: function () {
+		return Beardy('{@ a @},{@ b : * @},{@ c : x.y @}', 0) === ',,';
+	}},
+
+	{ name: 'Inlay with map', code: function () {
+		return Beardy('{@ a @},{@ b @},{@ C @},{@ D @}', {},
+			{ b: 'Y', a: 'X', C: '' }
+		) === 'X,Y,,';
+	}},
+
+	{ name: 'Inlay with function', code: function () {
+		return Beardy('{@ a @},{@ b @},{@ C @},{@ D @}', {},
+			function (name) {
+				switch (name) {
+					case 'a': return 'X';
+					case 'b': return 'Y';
+					case 'C': return '';
+					default:
+						return null;
+				}
+			}
+		) === 'X,Y,,';
+	}},
+
+	{ name: 'Inlay variable: default', code: function () {
+		return Beardy('{@ A @}', { x: 1, y: 2 }, { 'A': '{{ x }},{{ y }}' }
+		) === '1,2';
+	}},
+
+	{ name: 'Inlay variable: star', code: function () {
+		return Beardy('{@ A : * @}', { x: 3, y: 4 }, { 'A': '{{ x }},{{ y }}' }
+		) === '3,4';
+	}},
+
+	{ name: 'Inlay variable: certain name', code: function () {
+		return Beardy('{@ A : x @},{@ A : y @}', { x: 3, y: 4 }, { 'A': '{{ * }}' }
+		) === '3,4';
+	}},
+
+	{ name: 'Inlay variable: dot notation', code: function () {
+		return Beardy('{@ A : x.y @}:{@ A : x.Y @}', { x: { y: 5, Y: { Z: 7 }} }, { 'A': '{{ * }},{{ *.Z }},{{ Z }}' }
+		) === '5,,:[object Object],7,7';
+	}},
+
+	{ name: 'Inlay with inlay', code: function () {
+		return Beardy('{@ A @},{@ B : x @}',
+			{ x: 1 }, { 'A': '{@ B : x @}', 'B': '{{ * }}' }
+		) === '1,1';
+	}},
+
+	{ name: 'Recursive inlay', code: function () {
+		return Beardy('|{@ A @}|',
+			{ x: { x: { x: 0 }}},
+			{ A: '{% x %}-{@ A : x @}{% . %}' }
+		) === '|---|';
+	}},
+
 	{ name: 'Filter signature', code: function () {
 		var b = new Beardy('{{ X:F(1,2,3) }}');
 		var d = { X: 1 };

@@ -3,15 +3,16 @@
 
 var Reader = require('./Reader');
 
-function Beardy (template, data)
+function Beardy (template, data, env)
 {
 	if (this instanceof Beardy)
 	{
 		this._struct = analyze(parse(template));
+		this._env    = (env = data);
 	}
 	else
 	{
-		return new Beardy(template).render(data);
+		return new Beardy(template, env).render(data);
 	}
 }
 
@@ -72,6 +73,7 @@ function parseAll (reader)
 			'comment' : "{#",
 			'subst'   : "{{",
 			'block'   : "{%",
+			'inlay'   : "{@",
 		}, true);
 
 		r.push(rOp.data);
@@ -81,6 +83,7 @@ function parseAll (reader)
 		case 'comment' : parseComment(reader); break;
 		case 'subst'   : r.push(parseSubst(reader)); break;
 		case 'block'   : r.push(parseBlock(reader)); break;
+		case 'inlay'   : r.push(parseInlay(reader)); break;
 		}
 
 	}
@@ -193,7 +196,27 @@ function parseFilters (reader, encloser)
 		if (rOp.key === 'end') break;
 	}
 	return r;
-};
+}
+
+function parseInlay (reader)
+{
+	var rOp = reader.alternate({
+		'var' : ":",
+		'end' : "@}"
+	}, true);
+	var
+		inlay = rOp.data.trim(),
+		name  = '*';
+	if (rOp.key === 'var')
+	{
+		name = reader.enclose('@}', true).trim();
+	}
+	return {
+		type  : 'inlay',
+		inlay : inlay,
+		name  : name
+	};
+}
 
 function analyze (plain_struct)
 {
@@ -240,7 +263,8 @@ function render (struct, data)
 		e,
 		item, items,
 		subscope,
-		key;
+		key,
+		inlay;
 
 	data  = copy(data);
 
@@ -288,6 +312,13 @@ function render (struct, data)
 					}
 				}
 				break;
+			case 'inlay':
+				if (this._env && (inlay = determineInlay(this._env, e.inlay)))
+				{
+					item = resolveName(data, e.name);
+					_ += Beardy(inlay, item, this._env);
+				}
+				break;
 			}
 		}
 	}
@@ -323,6 +354,22 @@ function copyData (scope, data)
 		}
 	}
 	return scope;
+}
+
+function determineInlay (env, name)
+{
+	switch (typeof env)
+	{
+	case 'function':
+		return env(name) || null;
+
+	default:
+		if (Object(env) === env)
+		{
+			return env[name] || null;
+		}
+	}
+	return null;
 }
 
 function toString (value)
