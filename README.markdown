@@ -4,7 +4,8 @@ Beardy
 Beardy is inspired by awesome [Mustache](http://mustache.github.io/) templating engine,
 but it differs in some points.
 
-Beardy now is in release-candidate state. Some filters may change in future, basics are stable.
+Beardy now is in release-candidate state. Some things change in future, basics are stable.
+Inlay mechanism still in development, so it's volatile.
 
 Beardy is fully tested. You can run tests by calling `tests/run` in project tree. Submodule must
 be loaded.
