@@ -358,14 +358,15 @@ module.exports = [
 
 	{ name: 'Inlay with inlay', code: function () {
 		return Beardy('{@ A @},{@ B : x @}',
-			{ x: 1 }, { 'A': '{@ B : x @}', 'B': '{{ * }}' }
+			{ x: { y: 1 }}, { A: '{@ B : x @}', B: '{{ y }}' }
 		) === '1,1';
 	}},
 
+	/* Inlay inside block runs in block context so * would not cause infinite loop */
 	{ name: 'Recursive inlay', code: function () {
 		return Beardy('|{@ A @}|',
-			{ x: { x: { x: 0 }}},
-			{ A: '{% x %}-{@ A : x @}{% . %}' }
+			{ x: { x: { x:0 }}},
+			{ A: '-{% x %}{@ A @}{% . %}' }
 		) === '|---|';
 	}},
 
