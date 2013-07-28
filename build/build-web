@@ -1,0 +1,20 @@
+#! /usr/bin/env node
+
+var
+	fs   = require('fs'),
+	path = require('path'),
+	util = require('util')
+;
+
+var
+	__Reader = fs.readFileSync(path.join(__dirname, '../src/Reader.js'), { encoding: 'utf-8' }),
+	__Beardy = fs.readFileSync(path.join(__dirname, '../src/Beardy.js'), { encoding: 'utf-8' });
+
+__Reader = __Reader.replace('module.exports = Reader;', 'return Reader;');
+__Reader = 'var Reader = (function () {\n{{READER}}\n}());'.replace('{{READER}}', __Reader);
+
+__Beardy = __Beardy.replace('module.exports = Beardy;', 'return Beardy;');
+__Beardy = __Beardy.replace('var Reader = require(\'./Reader\');', '');
+__Beardy = 'var Beardy = (function () {\n{{BEARDY}}\n}());'.replace('{{BEARDY}}', __Beardy);
+
+util.print(__Reader +'\n'+ __Beardy);
