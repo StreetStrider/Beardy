@@ -220,6 +220,11 @@ Advanced Templating
 -----
 This section will be introduced further. Tests can be used to find out more features.
 
+Environments
+-----
+Beardy is a templating engine of general purpose. It's good for any string-data templating needs.
+Beardy works first in Node.js and also can be builded for Web by using `build/build-web.js` script.
+
 Licensing
 -----
 Beardy is available under MIT License terms.
