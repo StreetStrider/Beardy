@@ -218,7 +218,54 @@ In addition function supplied by single argument that contain key with which it 
 
 Advanced Templating
 -----
-This section will be introduced further. Tests can be used to find out more features.
+### Filters
+Substs' and blocks' values can be altered with **filters**.
+Filter is an rule that applied to value after it was resolved, before it was outputted in template.
+
+**Template**:
+```javascript
+'{{ name:filter1:filter2:filter3(a,b) }}'
+```
+In this template key `name` is looked in data first, then filters applied in straight order
+(filter1, filter2 and filter3), finally modified value is outputted.
+Filters separated from key and each other by colon. Filters can have parameters (like filter3).
+
+#### Filters list
+All information about how filter works can be founded in tests. Every filter is tested.
+Here is the list:
+
+Placeholder filters:
+
+ - `default (def)` : returns value if it's truly, else `def`
+
+Logic filters (converts value to boolean):
+
+ - `not` : inverts value to opposite boolean by JS rules
+ - `bool` : converts value to boolean by JS rules
+
+String filters (value converted to string first):
+
+ - `escape` : escapes HTML-entities
+ - `uppercase` : uppercases value
+ - `lowercase` : lowercases value
+ - `capitalize` : capitalizes every word in value
+ - `trim` : trims value
+ - `split (token)` : splits value by `token` and returns list (can be used well with block)
+
+List filters (value converted to list first):
+
+ - `list` : returns value if it's list, else list with value as only element
+ - `join (glue)` : joins list with `glue` and returns string
+ - `empty` : checks if list is empty, note that non-list values will produce list with one element
+ and will not be empty
+
+Numeric filters (value and parameters converted to number first):
+
+ - `add (num)` : adds `num` to value and returns it
+ - `sub (num)` : subs `num` from value and returns it
+ - `mod (num)` : get modulo for value with `num` divisor
+ - `even` : checks if value is even, returns bool
+ - `odd` : checks if value is odd, returns bool
 
 Environments
 -----
