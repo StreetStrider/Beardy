@@ -1,0 +1,26 @@
+{
+	"name": "Beardy",
+	"version": "0.9.0",
+	"description": "JavaScript common-purpose templaing engine.",
+
+	"main": "./src/Beardy",
+
+	"repository":
+	{
+		"type": "git",
+		"url": "git://github.com/StreetStrider/Beardy.git"
+	},
+
+	"keywords": [
+		"templaing",
+		"template",
+		"render",
+		"mustache",
+		"beardy"
+	],
+	"author": "StreetStrider",
+	"license": "MIT",
+	"readmeFilename": "README.markdown",
+
+	"private": true
+}
